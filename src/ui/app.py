@@ -1,11 +1,14 @@
 import streamlit as st
 import pandas as pd
+from backend import data_manipulation as dm
 
 
 def upload_file():
     uploaded_file = st.file_uploader("Select a file", type=['csv', 'xls', 'xlsx', 'json'])
     if uploaded_file:
-        # df = DataFrameHandler(uploaded_file)
+        file_handler = dm.DataFrameHandler(uploaded_file)
+        st.table(file_handler.df)
+        st.write(file_handler.get_categorical_columns())
         data_options()
 
 
@@ -28,6 +31,7 @@ def dataviz():
 def datastat():
     return st.radio("What type of hypothesis test do you want?",
                     ('Z-Test', 'T-Test', 'ANOVA'))
+
 
 if __name__ == '__main__':
     st.write("""
