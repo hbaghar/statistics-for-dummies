@@ -1,14 +1,13 @@
+import imp
 import streamlit as st
 import pandas as pd
 from backend import data_manipulation as dm
-
 
 def upload_file():
     uploaded_file = st.file_uploader("Select a file", type=['csv', 'xls', 'xlsx', 'json'])
     if uploaded_file:
         file_handler = dm.DataFrameHandler(uploaded_file)
-        st.table(file_handler.df)
-        st.write(file_handler.get_categorical_columns())
+        st.table(file_handler.df.head(10))
         data_options()
 
 
