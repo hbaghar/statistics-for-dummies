@@ -1,4 +1,3 @@
-from xml.etree.ElementInclude import include
 import plotly.express as px
 class VizHandler():
 
@@ -15,11 +14,11 @@ class VizHandler():
         elif self.viz_type ==  'Scatterplot': 
             return px.scatter(self.data, x = self.x, y = self.y, color = self.hue, opacity=self.opacity)
         elif self.viz_type == 'Bar Graph':
-            return px.histogram(self.data, x = self.x, y = self.y, color = self.hue, opacity=self.opacity, histfunc=self.func)
+            return px.histogram(self.data, x = self.x, y = self.y, color = self.hue, histfunc=self.func)
         elif self.viz_type == 'Line Graph':
             return px.line(self.data, x = self.x, y = self.y, color = self.hue)
         elif self.viz_type == 'Box Plot':
-            return px.box(self.data, x = self.x, y = self.y, color = self.hue)
+            return px.box(self.data, x = self.x, color = self.hue, log_x=self.log_x)
         elif self.viz_type == 'Correlation Heatmap':
             return px.imshow(self.data.corr())
         else:
