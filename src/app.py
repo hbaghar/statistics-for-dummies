@@ -1,3 +1,4 @@
+from turtle import onclick
 import streamlit as st
 import pandas as pd
 from backend import data_manipulation as dm
@@ -13,30 +14,36 @@ def data_snapshot(dh):
     with dataSnapshot:
         #Need to fix ugly table width: plotly table is a viable option
         st.write("Data Snapshot")
-        st.table(dh.df.head(5))
+        st.dataframe(dh.df.head(5))
 
         st.write("Descriptive Statistics")
-        st.table(dh.get_descriptive_stats())
+        st.dataframe(dh.df.describe())
 
-        st.write("Categorical Statistics")
-        st.table(dh.get_categorial_stats())
+        col1, col2 = st.columns(2)
+        col2.write("Categorical Statistics")
+        col2.table(dh.df.describe(include=['object']))
 
-        st.write("Missing Value Statistics")
-        st.table(dh.get_missing_value_stats())
+        col1.write("Missing Value Statistics")
+        col1.dataframe(dh.df.isna().sum())
+
+def data_viz_shell(dh):
+    viz_type = st.selectbox("What type of visualization do you want?",
+                    ('Histogram', 'Scatterplot', 'Bar Graph', 'Line Graph', 'Box Plot', 'Correlation Heatmap'))
+    if viz_type != "Correlation Heatmap":
+        col1, col2 = st.columns([2, 5])
+        with col1:
+            inputs = dataviz_inputs(filehandler, viz_type)
+        with col2:
+            vh = dv.VizHandler(filehandler.df, **inputs)
+            st.plotly_chart(vh.plot())
+    else:
+        vh = dv.VizHandler(filehandler.df, viz_type=viz_type)
+        st.plotly_chart(vh.plot())
 
 
-def data_options(dh):
-    actionMenu = st.container()
-
-    with actionMenu:
-        st.write("What do you want to do?")
-        data_option = st.radio("What do you want to do?", ('Data Visualization', 'Statistics'))
-        return data_option
-
-
-def dataviz(dh, viz_type):
+def dataviz_inputs(dh, viz_type):
     
-    keys = ['viz_type', 'x', 'y', 'bins', 'hue', 'func']
+    keys = ['viz_type', 'x', 'y', 'bins', 'hue', 'func', 'opacity']
     inputs = dict.fromkeys(keys)
 
     dataVizOptions = st.container()
@@ -60,6 +67,7 @@ def dataviz(dh, viz_type):
                 inputs['x'] = st.selectbox("Select X-axis", dh.get_numeric_columns())
                 inputs['y'] = st.selectbox("Select Y-axis", dh.get_numeric_columns())
                 inputs['hue'] = st.selectbox("Select a column to color by", [None] + dh.get_categorical_columns())
+                inputs['opacity'] = st.slider("Opacity", min_value=0.0, max_value=1.0, value=0.7)
             else:
                 inputs['x'] = st.selectbox("Select X-axis", dh.get_numeric_columns())
                 inputs['y'] = st.selectbox("Select Y-axis", dh.get_numeric_columns())
@@ -68,7 +76,7 @@ def dataviz(dh, viz_type):
             if dh.get_categorical_columns():
                 inputs['x'] = st.selectbox("Select X-axis", dh.get_categorical_columns())
                 inputs['y'] = st.selectbox("Select Y-axis", dh.get_numeric_columns())
-                inputs['func'] = st.selectbox("Select a function", ('count', 'sum', 'mean', 'median'))
+                inputs['func'] = st.selectbox("Select a function", ('count', 'sum', 'avg', 'median'))
                 inputs['hue'] = st.selectbox("Select a column to color by", [None] + dh.get_categorical_columns())
             else:
                 st.write("No categorical columns found in dataset")
@@ -93,17 +101,14 @@ if __name__ == '__main__':
     if uploaded_file:
         filehandler = upload_file(uploaded_file)
         data_snapshot(filehandler)
-        option = data_options(filehandler)
-        if option == "Data Visualization":
-            viz_type = st.selectbox("What type of visualization do you want?",
-                    ('Histogram', 'Scatterplot', 'Bar Graph', 'Line Graph', 'Box Plot', 'Correlation Matrix'))
-            col1, col2 = st.columns([1,2])
-            with col1:
-                inputs = dataviz(filehandler, viz_type)
-                st.write(inputs)
-            with col2:
-                vh = dv.VizHandler(filehandler.df, **inputs)
-                st.pyplot(vh.fig, vh.plot())
-        elif  option == "Statistics":
-            inputs = datastat(filehandler)
-            st.write(inputs)
+        
+        st.write("## What do you want to do with your data?")
+        actionMenu = st.container()
+
+        with actionMenu:
+            opt = st.radio("Choose an action:", ('Data Visualization', 'Statistics'))
+            if opt == "Data Visualization":
+                data_viz_shell(filehandler)
+            elif opt == "Statistics":
+                datastat(filehandler)
+                st.write("Coming soon!")
