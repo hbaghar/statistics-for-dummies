@@ -28,11 +28,11 @@ class DataFrameHandler(object):
 
     def get_numeric_columns(self):
         numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
-        return self.df.select_dtypes(include=numerics).columns
+        return [self.df.select_dtypes(include=numerics).columns]
 
     def get_categorical_columns(self):
         numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
-        return self.df.select_dtypes(exclude=numerics).columns
+        return [self.df.select_dtypes(exclude=numerics).columns]
     
     def get_descriptive_stats(self):
         return self.df.describe()
@@ -47,7 +47,31 @@ class DataFrameHandler(object):
         #TO-DO:
         # - Phase 1: Split by all categories in a column
         # - Phase 2: Split by specific categories in a column (?)
-        pass
+        '''
+            Returns dictionary with Series from the numeric_column each sliced by their respective grouping in the categorical_column.
+            If there are NaN in the categorical_column we don't consider them
+
+            Parameters:
+                    categorical_column (String): Name of the categorical column that contains the grouping for slicing
+                    numeric_column (String): Name of the numerical column that contains the values that are to be sliced
+                    
+            Returns:
+                    (Dictionary): A Dictionary containing numerical Series from the slicing performed and last value contains number of categories
+        '''
+        grouped_dict={}
+        grouped_dict['NaN_found']=False
+        if self.df[categorical_column].isnull().values.any():
+            grouped_dict['NaN_found']=True
+        temp_df=self.df.dropna(subset=[categorical_column])
+        categories=temp_df[categorical_column].unique()
+        grouped=temp_df.groupby(categorical_column)
+        n=len(categories)
+        for i in range(len(categories)):
+            temp_series=grouped.get_group(categories[i])[numeric_column]
+            grouped_dict[categories[i]]=temp_series
+        grouped_dict['len']=n
+        return grouped_dict
+    
     
 
 if __name__ == "__main__":
@@ -60,7 +84,7 @@ if __name__ == "__main__":
     
     uf = st.uploaded_file_manager.UploadedFile(ufr)
     obj = DataFrameHandler(uf)
-    print(obj.get_missing_value_stats())
+    print(obj.slice_by_column('Sex','Age'))
 
 
 #uploaded_file = st.file_uploader("Choose a CSV file")
