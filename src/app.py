@@ -16,14 +16,14 @@ def data_snapshot(dh):
             st.dataframe(dh.df.head(5))
 
             st.write("Descriptive Statistics")
-            st.dataframe(dh.df.describe())
+            st.dataframe(dh.get_descriptive_stats())
 
             col1, col2 = st.columns(2)
             col2.write("Categorical Statistics")
-            col2.table(dh.df.describe(include=['object']))
+            col2.dataframe(dh.get_categorical_stats())
 
             col1.write("Missing Value Statistics")
-            col1.dataframe(dh.df.isna().sum())
+            col1.dataframe(dh.get_missing_value_stats())
     except:
         pass
 
@@ -72,7 +72,7 @@ def dataviz_inputs(dh, viz_type):
             if dh.get_categorical_columns():
                 inputs['x'] = st.selectbox("Select X-axis", dh.get_numeric_columns())
                 inputs['y'] = st.selectbox("Select Y-axis", dh.get_numeric_columns())
-                inputs['hue'] += st.selectbox("Select a column to color by", [None] + dh.get_categorical_columns())
+                inputs['hue'] = st.selectbox("Select a column to color by", [None] + dh.get_categorical_columns())
             else:
                 inputs['x'] = st.selectbox("Select X-axis", dh.get_numeric_columns())
                 inputs['y'] = st.selectbox("Select Y-axis", dh.get_numeric_columns())
