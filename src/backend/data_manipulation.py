@@ -28,11 +28,11 @@ class DataFrameHandler(object):
 
     def get_numeric_columns(self):
         numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
-        return [self.df.select_dtypes(include=numerics).columns]
+        return list(self.df.select_dtypes(include=numerics).columns)
 
     def get_categorical_columns(self):
         numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
-        return [self.df.select_dtypes(exclude=numerics).columns]
+        return list(self.df.select_dtypes(exclude=numerics).columns)
     
     def get_descriptive_stats(self):
         return self.df.describe()
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     
     uf = st.uploaded_file_manager.UploadedFile(ufr)
     obj = DataFrameHandler(uf)
-    print(obj.slice_by_column('Sex','Age'))
+    print(obj.get_categorical_stats())
 
 
 #uploaded_file = st.file_uploader("Choose a CSV file")
