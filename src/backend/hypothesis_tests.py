@@ -36,9 +36,9 @@ def t_test_1_samp(x, pop_mean, sig_lvl = 0.05):
 
     print(str(100*(1-sig_lvl)) + "% confidence interval: " + str(con_1) + " " + str(con_2))
     print("Mean of x: " + str(samp_mean))
-    print()
+    result={"p_value":p,"t_value":t,"con_low":con_1,"con_up":con_2,"sample_mean_1":samp_mean,"accept":accept}
 
-    return p, t, con_1, con_2, samp_mean, accept
+    return result
 
 # Input parameters: sample 1 (pd df), sample 2 (pd df), significance level (optional float)
 # Return values: p-value, t-value, confidence interval (lower), confidence interval (upper), mean of sample 1, mean of sample 2, reject/accept (1 = accept, 0 = reject)
@@ -74,8 +74,8 @@ def t_test_welch(x, y, sig_lvl=0.05):
     print(str(100 * (1 - sig_lvl)) + "% confidence interval: " + str(con_1) + " " + str(con_2))
     print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
     print()
-
-    return p, t, con_1, con_2, mu_1, mu_2, accept
+    result={"p_value":p,"t_value":t,"con_low":con_1,"con_up":con_2,"sample_mean_1":mu_1,"sample_mean_2":mu_2,"accept":accept}
+    return result
 
 # Input parameters: sample 1 (pd df), sample 2 (pd df), significance level (optional float)
 # Return values: p-value, t-value, confidence interval (lower), confidence interval (upper), mean of sample 1, mean of sample 2, reject/accept (1 = accept, 0 = reject)
@@ -110,8 +110,8 @@ def t_test_2_samp_equal_var(x, y, sig_lvl=0.05):
     print(str(100 * (1 - sig_lvl)) + "% confidence interval: " + str(con_1) + " " + str(con_2))
     print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
     print()
-
-    return p, t, con_1, con_2, mu_1, mu_2, accept
+    result={"p_value":p,"t_value":t,"con_low":con_1,"con_up":con_2,"sample_mean_1":mu_1,"sample_mean_2":mu_2,"accept":accept}
+    return result
 
 # Input parameters: sample (pd df), population mean (float), significance level (optional float)
 # Return values: p-value, z-value, confidence interval (lower), confidence interval (upper), mean of sample, reject/accept (1 = accept, 0 = reject)
@@ -142,8 +142,8 @@ def z_test_1_samp(x, pop_mean, sig_lvl=0.05):
     print(str(100 * (1 - sig_lvl)) + "% confidence interval: " + str(con_1) + " " + str(con_2))
     print("Mean of x: " + str(samp_mu))
     print()
-
-    return p, z, con_1, con_2, samp_mu, accept
+    result={"p_value":p,"z_value":z,"con_low":con_1,"con_up":con_2,"sample_mean_1":samp_mu,"accept":accept}
+    return result
 
 # Input parameters: sample 1 (pd df), sample 2 (pd df), significance level (optional float)
 # Return values: p-value, z-value, confidence interval (lower), confidence interval (upper), mean of sample 1, mean of sample 2, reject/accept (1 = accept, 0 = reject)
@@ -177,8 +177,8 @@ def z_test_2_samp(x,y, sig_lvl=0.05):
     print(str(100 * (1 - sig_lvl)) + "% confidence interval: " + str(con_1) + " " + str(con_2))
     print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
     print()
-
-    return p, z, con_1, con_2, mu_1, mu_2, accept
+    result={"p_value":p,"z_value":z,"con_low":con_1,"con_up":con_2,"sample_mean_1":mu_1,"sample_mean_2":mu_2,"accept":accept}
+    return result
 
 # Input parameters: pd df of group categoricals, pd df of corresponding values, significance level (optional)
 # Return values: p-value, f-value, variance between, var within, degrees of freedom between, df within, df total, Sum of Squares between, ss within, ss total, accept (1 = accept, 0 = reject)
@@ -244,8 +244,8 @@ def one_way_anova(groups, values, sig_lvl=0.05):
     else:
         print("Null hypothesis: true difference in means is equal to 0")
     print()
-
-    return p, f, var_between, var_within, df_between, df_within, df_total, ss_between, ss_within, ss_total, accept
+    result={"p_value":p,"f_value":f,"var_between":var_between,"var_within":var_within,"df_between":df_between,"df_within":df_within,"df_total":df_total,"ss_between":ss_between,"ss_within": ss_within, "ss_total":ss_total, "accept":accept}
+    return result
 
 if __name__ == "__main__":
 
