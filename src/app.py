@@ -115,9 +115,9 @@ def datastat_shell(dh):
             st.write(f"Results of {inputs['sample']} {test}:")
         except:
             st.write(f"Results of {test}:")
-
+        st.write(inputs)
         st.write(test_obj[test](data_handler = dh, **inputs).perform_test())
-    st.write(inputs)
+    
 
 def datastat_inputs(dh, test):
 
@@ -146,12 +146,12 @@ def datastat_inputs(dh, test):
             
         
         elif test == "ANOVA":
-            inputs['x'] = st.selectbox("Select numeric column", dh.get_numeric_columns())
+            inputs['numeric_col'] = st.selectbox("Select numeric column", dh.get_numeric_columns())
             inputs['cat'] = st.selectbox("Select categorical column", dh.get_categorical_columns())
 
         else:
             pass
-        inputs['sig'] = st.number_input("Enter the significance level", value=0.05)
+        inputs['significance_level'] = st.number_input("Enter the significance level", value=0.05)
 
         return inputs
 
