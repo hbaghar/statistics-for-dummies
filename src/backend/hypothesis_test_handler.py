@@ -43,7 +43,6 @@ class ZTest(HypothesisTests):
         else:
             slice_dict = self.data_handler.slice_by_column(self.cat, self.numeric_col, cat1 = self.cat1, cat2 = self.cat2)
             self.results = ht.z_test_2_samp(slice_dict[self.cat1], slice_dict[self.cat2], self.significance_level)
-        
             self.results['NaN_found'] = slice_dict['NaN_found']
         return self.results
 
@@ -56,7 +55,8 @@ class ANOVA(HypothesisTests):
 
     def perform_test(self):
         slice_dict = self.data_handler.slice_by_column(self.cat, self.numeric_col)
-        # self.results = ht.one_way_anova()
-        self.results['NaN_found'] = slice_dict['NaN_found']
+        #Handle when number of categorical is equal to number of values (Name)-> Division by 0. 
+        self.results = ht.one_way_anova(slice_dict,self.significance_level)
+        #self.results['NaN_found'] = slice_dict['NaN_found']
         
         return self.results

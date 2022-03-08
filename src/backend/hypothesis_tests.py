@@ -182,31 +182,22 @@ def z_test_2_samp(x,y, sig_lvl=0.05):
 
 # Input parameters: pd df of group categoricals, pd df of corresponding values, significance level (optional)
 # Return values: p-value, f-value, variance between, var within, degrees of freedom between, df within, df total, Sum of Squares between, ss within, ss total, accept (1 = accept, 0 = reject)
-def one_way_anova(groups, values, sig_lvl=0.05):
+def one_way_anova(dictionary, sig_lvl=0.05):
 
     print("One way ANOVA")
-
-    unique_groups = list(np.unique(groups))
-    unique_groups = pd.DataFrame(unique_groups)
-
-    sep_values = []
-    for i in range(int(groups.nunique())):
-        method_values = []
-        for j in range(len(groups)):
-            if unique_groups.iloc[i].equals(groups.iloc[j]):
-                method_values.append(float(values.iloc[j]))
-        sep_values.append(method_values)
-
+    cat_val=dictionary.pop('cat_NaN_found')
+    num_val=dictionary.pop('num_NaN_found')
+    sep_values=[list(value) for key,value in dictionary.items()]
     f, p = f_oneway(*sep_values)
-
+    print(f,p)
+    unique_groups=pd.DataFrame(list(dictionary.keys()))
     k = unique_groups.shape[0]
-    n = groups.shape[0]
-
+    n = sum([len(value) for  key,value in dictionary.items() ])
     df_between = k - 1
     df_within = n - k
     df_total = n - 1
-
-    grand_mean = values.mean()
+    
+    grand_mean = sum([item for sublist in sep_values for item in sublist])/n
     total = 0
     for i in range(len(sep_values)):
         group_mean = 0
@@ -214,15 +205,13 @@ def one_way_anova(groups, values, sig_lvl=0.05):
             group_mean = group_mean + sep_values[i][j]
         group_mean = group_mean/len(sep_values[i])
         total = total + (grand_mean-group_mean)**2*len(sep_values[i])
-
     total2 = 0
     for i in range(len(sep_values)):
         gm = 0
         for j in range(len(sep_values[i])):
             gm = gm + sep_values[i][j]
         gm = gm/len(sep_values[i])
-
-        for j in range(len(sep_values[i])):
+        for j in range(len(sep_values[i])): 
             total2 = total2 + (sep_values[i][j] - gm)**2
 
     ss_between = float(total)
@@ -245,6 +234,8 @@ def one_way_anova(groups, values, sig_lvl=0.05):
         print("Null hypothesis: true difference in means is equal to 0")
     print()
     result={"p_value":p,"f_value":f,"var_between":var_between,"var_within":var_within,"df_between":df_between,"df_within":df_within,"df_total":df_total,"ss_between":ss_between,"ss_within": ss_within, "ss_total":ss_total, "accept":accept}
+    dictionary['cat_NaN_found']=cat_val
+    dictionary['num_NaN_found']=num_val
     return result
 
 if __name__ == "__main__":
@@ -254,6 +245,7 @@ if __name__ == "__main__":
     y = pd.DataFrame([5, 6, 7, 8])
     groups = pd.DataFrame(["A","A","A","A","B","B","B","B","C","C","C","C"])
     values = pd.DataFrame([1,2,3,4,4,6,5,9,12,12,1,11])
+    dictio={"A":[1.0,2.0,3.0,4.0],"B":[4.0, 6.0, 5.0, 9.0],"C":[12.0, 12.0, 1.0, 11.0],'cat_NaN_found':False,'num_NaN_found':False}
 
     # T tests
     t_test_1_samp(x, 3)
@@ -265,4 +257,5 @@ if __name__ == "__main__":
     z_test_2_samp(x,y)
 
     # ANOVA
-    one_way_anova(groups,values)
+    print(one_way_anova(dictio))
+    

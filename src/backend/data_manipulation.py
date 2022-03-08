@@ -18,13 +18,15 @@ class DataFrameHandler(object):
                     (DataFrame): A DataFrame with accessible data recieved in file
             For more information regarding data types visit: https://www.ibm.com/docs/en/wkc/cloud?topic=catalog-previews
         '''
-        if file.type == 'text/csv':
+        if file.type == 'text/csv' or file.type == 'application/vnd.ms-excel':
             return pd.read_csv(file)
-        elif file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' or file.type == 'application/vnd.ms-excel' :
+        elif file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
             return pd.read_excel(file)
         #Processes only simple JSON, doesn't admit JSON with nested lists inside
         elif file.type == 'application/json':
             return pd.read_json(file)
+        else:
+            print("File type not recognized")
 
     def get_numeric_columns(self):
         numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
@@ -65,16 +67,19 @@ class DataFrameHandler(object):
                     numeric_column (String): Name of the numerical column that contains the values that are to be sliced
                     
             Returns:
-                    (Dictionary): A Dictionary containing numerical Series from the slicing performed and last value contains number of categories
+                    (Dictionary): A Dictionary containing numerical Series from the slicing performed, if NaN we remove them
         '''
         grouped_dict={}
-        grouped_dict['NaN_found']=False
+        grouped_dict['cat_NaN_found']=False
+        grouped_dict['num_NaN_found']=False
         if self.df[categorical_column].isnull().values.any():
-            grouped_dict['NaN_found']=True
-        temp_df=self.df.dropna(subset=[categorical_column])
+            grouped_dict['cat_NaN_found']=True
+        if self.df[numeric_column].isnull().values.any():
+            grouped_dict['num_NaN_found']=True
+        temp_df=self.df.dropna(subset=[categorical_column,numeric_column],how='any')
+        
         categories=temp_df[categorical_column].unique()
         grouped=temp_df.groupby(categorical_column)
-        n=len(categories)
         
         if kwargs != {}:
             for key,value in kwargs.items():
@@ -83,7 +88,6 @@ class DataFrameHandler(object):
             for i in range(len(categories)):
                 temp=grouped.get_group(categories[i])[numeric_column]
                 grouped_dict[categories[i]]=temp
-                grouped_dict['len']=n
         return grouped_dict
     
     
