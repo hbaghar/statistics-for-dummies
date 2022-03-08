@@ -5,11 +5,6 @@ class HypothesisTests(object):
         for arg in kwargs:
             setattr(self, arg, kwargs[arg])
 
-        self.pvalue = None
-        self.test_statistic = None
-        self.test_result = None
-        self.confidence_interval = (None, None)
-    
     def perform_test(self):
         pass
 
@@ -23,15 +18,17 @@ class TTest(HypothesisTests):
     
     def perform_test(self):
         if self.num_samples == "One sample":
-            x = self.data[self.numeric_col]
-            self.test_statistic = ht.t_test_1_samp(x, self.mu, self.sig)
+            x = self.data_handler.df[self.numeric_col]
+            self.results = ht.t_test_1_samp(x, self.mu, self.sig)
         else:
             if self.equal_var:
-                self.test_statistic = ht.t_test_welch(self.x, self.y, self.sig)
+                slice_dict = self.dh.slice_by_column(self.numeric_col, self.cat, cat1 = self.cat1, cat2 = self.cat2)
+                self.results = ht.t_test_welch(slice_dict[self.cat1], slice_dict[self.cat2], self.sig)
             else:
-                self.test_statistic = ht.t_test_2_samp_equal_var(self.x, self.y, self.sig)
+                self.results = ht.t_test_2_samp_equal_var(self.x, self.y, self.sig)
         
-        return self.test_statistic
+            self.results['NaN_found'] = slice_dict['NaN_found']
+        return self.results
 
 class ZTest(HypothesisTests):
     
