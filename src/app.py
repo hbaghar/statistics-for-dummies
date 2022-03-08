@@ -116,7 +116,7 @@ def datastat_shell(dh):
         except:
             st.write(f"Results of {test}:")
 
-        st.write(test_obj[test](data = dh.df, **inputs).perform_test())
+        st.write(test_obj[test](data_handler = dh, **inputs).perform_test())
     st.write(inputs)
 
 def datastat_inputs(dh, test):
