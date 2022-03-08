@@ -39,7 +39,8 @@ class DataFrameHandler(object):
         non_numeric_columns=list(self.df.select_dtypes(exclude=numerics).columns)
         categorical_columns= list(set(less_than_10_columns+non_numeric_columns))
         return categorical_columns
-    def get_columns_categories(self,category):
+    
+    def get_column_categories(self,category):
         return list(self.df[category].unique())
         
     def get_descriptive_stats(self):

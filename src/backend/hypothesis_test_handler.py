@@ -21,7 +21,7 @@ class TTest(HypothesisTests):
             x = self.data_handler.df[self.numeric_col]
             self.results = ht.t_test_1_samp(x, self.mu, self.sig)
         else:
-            slice_dict = self.dh.slice_by_column(self.numeric_col, self.cat, cat1 = self.cat1, cat2 = self.cat2)
+            slice_dict = self.data_handler.slice_by_column(self.cat, self.numeric_col, cat1 = self.cat1, cat2 = self.cat2)
             if self.equal_var:
                 self.results = ht.t_test_welch(slice_dict[self.cat1], slice_dict[self.cat2], self.sig)
             else:
@@ -41,7 +41,7 @@ class ZTest(HypothesisTests):
             x = self.data_handler.df[self.numeric_col]
             self.results = ht.z_test_1_samp(x, self.mu, self.sig)
         else:
-            slice_dict = self.dh.slice_by_column(self.numeric_col, self.cat, cat1 = self.cat1, cat2 = self.cat2)
+            slice_dict = self.data_handler.slice_by_column(self.cat, self.numeric_col, cat1 = self.cat1, cat2 = self.cat2)
             self.results = ht.z_test_2_samp(slice_dict[self.cat1], slice_dict[self.cat2], self.sig)
         
             self.results['NaN_found'] = slice_dict['NaN_found']
@@ -55,7 +55,7 @@ class ANOVA(HypothesisTests):
         super().__init__(**kwargs)
 
     def perform_test(self):
-        slice_dict = self.dh.slice_by_column(self.numeric_column, self.categorical_column)
+        slice_dict = self.data_handler.slice_by_column(self.categorical_column, self.numeric_column)
         self.results = ht.anova(slice_dict)
         self.results['NaN_found'] = slice_dict['NaN_found']
         
