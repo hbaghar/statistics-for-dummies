@@ -31,9 +31,17 @@ class DataFrameHandler(object):
         return list(self.df.select_dtypes(include=numerics).columns)
 
     def get_categorical_columns(self):
+        #There can be numeric columns that are categorical, we will assume that more than 10 unique values is the threshold between categorcial and numeric features
         numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
-        return list(self.df.select_dtypes(exclude=numerics).columns)
-    
+        num_unique=self.df.nunique()
+        less_than_10=num_unique<10 
+        less_than_10_columns=list(self.df.filter(less_than_10.index[less_than_10],axis=1).columns)
+        non_numeric_columns=list(self.df.select_dtypes(exclude=numerics).columns)
+        categorical_columns= list(set(less_than_10_columns+non_numeric_columns))
+        return categorical_columns
+    def get_columns_categories(self,category):
+        return list(self.df[category].unique())
+        
     def get_descriptive_stats(self):
         return self.df.describe()
 
@@ -43,7 +51,7 @@ class DataFrameHandler(object):
     def get_missing_value_stats(self):
         return self.df.isnull().sum()
 
-    def slice_by_column(self, categorical_column, numeric_column):
+    def slice_by_column(self, categorical_column, numeric_column,**kwargs):
         #TO-DO:
         # - Phase 1: Split by all categories in a column
         # - Phase 2: Split by specific categories in a column (?)
@@ -66,10 +74,15 @@ class DataFrameHandler(object):
         categories=temp_df[categorical_column].unique()
         grouped=temp_df.groupby(categorical_column)
         n=len(categories)
-        for i in range(len(categories)):
-            temp_series=grouped.get_group(categories[i])[numeric_column]
-            grouped_dict[categories[i]]=temp_series
-        grouped_dict['len']=n
+        
+        if kwargs != {}:
+            for key,value in kwargs.items():
+                grouped_dict[value]=grouped.get_group(value)[numeric_column]
+        else:
+            for i in range(len(categories)):
+                temp=grouped.get_group(categories[i])[numeric_column]
+                grouped_dict[categories[i]]=temp
+                grouped_dict['len']=n
         return grouped_dict
     
     
@@ -84,7 +97,7 @@ if __name__ == "__main__":
     
     uf = st.uploaded_file_manager.UploadedFile(ufr)
     obj = DataFrameHandler(uf)
-    print(obj.get_categorical_stats())
+    print(obj.slice_by_column('Sex','Age',cat1='F',cat2='M',cat3='T'))
 
 
 #uploaded_file = st.file_uploader("Choose a CSV file")
