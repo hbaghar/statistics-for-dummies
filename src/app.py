@@ -18,6 +18,7 @@ def data_snapshot(dh):
             st.write("Descriptive Statistics")
             st.dataframe(dh.get_descriptive_stats())
 
+            # TO-DO: Adjust colmn size and write some clean exception handling
             col1, col2 = st.columns(2)
             col2.write("Categorical Statistics")
             col2.dataframe(dh.get_categorical_stats())
@@ -94,10 +95,47 @@ def dataviz_inputs(dh, viz_type):
     return inputs
 
 
-def datastat(dh):
-    return st.radio("What type of hypothesis test do you want?",
-                    ('Z-Test', 'T-Test', 'ANOVA'))
+def datastat_shell(dh):
+    test = st.selectbox("Select a statistical test", ('Z-Test', 'T-Test', 'ANOVA'))
+    inputs = datastat_inputs(dh, test)
 
+    st.write(inputs)
+
+def datastat_inputs(dh, test):
+
+    inputs = dict()
+    inputs['test'] = test
+    dataStatOptions = st.container()
+
+    with dataStatOptions:
+
+        if test == "Z-Test" or test == "T-Test":
+            sample = st.radio("Select a test type", ('One sample', 'Two sample'))
+            if sample == "One sample":
+                inputs['x'] = st.selectbox("Select a column", dh.get_numeric_columns())
+                inputs['mu'] = st.number_input("Enter population mean", value=0)
+            else:
+                inputs['x'] = st.selectbox("Select numeric column", dh.get_numeric_columns())
+                inputs['cat'] = st.selectbox("Select categorical column", dh.get_categorical_columns())
+
+                col1, col2 = st.columns(2)
+                inputs['cat1'] = col1.selectbox("Select category 1", dh.get_column_categories(inputs['cat']))
+                inputs['cat2'] = col2.selectbox("Select category 2", dh.get_column_categories(inputs['cat']))
+            
+            if test == "T-Test" and sample == "Two sample":
+                inputs['equal_var'] = st.checkbox("Equal variance")
+            
+            inputs['tails'] = st.radio("Select a tail", ('Two', 'One'))
+        
+        elif test == "ANOVA":
+            inputs['x'] = st.selectbox("Select numeric column", dh.get_numeric_columns())
+            inputs['cat'] = st.selectbox("Select categorical column", dh.get_categorical_columns())
+
+        else:
+            pass
+        inputs['sig'] = st.number_input("Enter the significance level", value=0.05)
+
+        return inputs
 
 if __name__ == '__main__':
     st.write("""
@@ -117,5 +155,5 @@ if __name__ == '__main__':
             if opt == "Data Visualization":
                 data_viz_shell(filehandler)
             elif opt == "Statistics":
-                datastat(filehandler)
+                datastat_shell(filehandler)
                 st.write("Coming soon!")
