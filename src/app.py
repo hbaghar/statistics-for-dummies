@@ -131,7 +131,7 @@ def datastat_inputs(dh, test):
             inputs['num_samples'] = sample
             if sample == "One sample":
                 inputs['numeric_col'] = st.selectbox("Select a column", dh.get_numeric_columns())
-                inputs['mu'] = st.number_input("Enter population mean", value=0)
+                inputs['mu'] = st.number_input("Enter population mean", value=0.0)
             else:
                 if test == "T-Test":
                     inputs['equal_var'] = st.checkbox("Equal variance")
