@@ -1,4 +1,5 @@
 from backend import hypothesis_tests as ht
+import pandas as pd
 class HypothesisTests(object):
     def __init__(self, **kwargs):
         
@@ -19,7 +20,10 @@ class TTest(HypothesisTests):
     def perform_test(self):
         if self.num_samples == "One sample":
             x = self.data_handler.df[self.numeric_col]
+            nan_found=x.isnull().values.any()
+            x.dropna(inplace=True)
             self.results = ht.t_test_1_samp(x, self.mu, self.significance_level)
+            self.results['num_NaN_found'] = nan_found
         else:
             slice_dict = self.data_handler.slice_by_column(self.cat, self.numeric_col, cat1 = self.cat1, cat2 = self.cat2)
             if self.equal_var:
@@ -40,7 +44,10 @@ class ZTest(HypothesisTests):
     def perform_test(self):
         if self.num_samples == "One sample":
             x = self.data_handler.df[self.numeric_col]
+            nan_found=x.isnull().values.any()
+            x.dropna(inplace=True)
             self.results = ht.z_test_1_samp(x, self.mu, self.significance_level)
+            self.results['num_NaN_found'] = nan_found
         else:
             slice_dict = self.data_handler.slice_by_column(self.cat, self.numeric_col, cat1 = self.cat1, cat2 = self.cat2)
             self.results = ht.z_test_2_samp(slice_dict[self.cat1], slice_dict[self.cat2], self.significance_level)
