@@ -94,7 +94,7 @@ class DataFrameHandler(object):
 
 if __name__ == "__main__":
     ufr=None    
-    filepath = 'biostats.csv'
+    filepath = 'datasets/biostats.csv'
     with open(filepath, 'rb') as fh:
         
         buf = BytesIO(fh.read())
