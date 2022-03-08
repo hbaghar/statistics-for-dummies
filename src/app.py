@@ -3,6 +3,7 @@ from backend import data_manipulation as dm
 from backend import data_viz as dv
 from backend import hypothesis_test_handler as hth
 
+
 @st.cache(allow_output_mutation=True)
 def upload_file(file):
     return dm.DataFrameHandler(file)
@@ -115,7 +116,7 @@ def datastat_shell(dh):
         except:
             st.write(f"Results of {test}:")
 
-        st.write(test_obj[test](**inputs).perform_test())
+        st.write(test_obj[test](data = dh.df, **inputs).perform_test())
     st.write(inputs)
 
 def datastat_inputs(dh, test):
@@ -129,13 +130,13 @@ def datastat_inputs(dh, test):
             sample = st.radio("Select a test type", ('One sample', 'Two sample'))
             inputs['num_samples'] = sample
             if sample == "One sample":
-                inputs['x'] = st.selectbox("Select a column", dh.get_numeric_columns())
+                inputs['numeric_col'] = st.selectbox("Select a column", dh.get_numeric_columns())
                 inputs['mu'] = st.number_input("Enter population mean", value=0)
             else:
                 if test == "T-Test":
                     inputs['equal_var'] = st.checkbox("Equal variance")
                 
-                inputs['x'] = st.selectbox("Select numeric column", dh.get_numeric_columns())
+                inputs['numeric_col'] = st.selectbox("Select numeric column", dh.get_numeric_columns())
                 inputs['cat'] = st.selectbox("Select categorical column", dh.get_categorical_columns())
 
                 if inputs['cat']:
