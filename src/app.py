@@ -159,7 +159,7 @@ if __name__ == '__main__':
     st.write("""
     # DATA 515 Project - Statistics for Dummies
     """)
-    uploaded_file = st.file_uploader("Select a file", type=['csv', 'xls', 'xlsx', 'json'])
+    uploaded_file = st.file_uploader("Select a file", type=['csv', 'xlsx', 'json'])
     filehandler = None
     if uploaded_file:
         filehandler = upload_file(uploaded_file)
