@@ -111,13 +111,34 @@ def datastat_shell(dh):
     dataStatResults = st.container()
 
     with dataStatResults:
+        results = test_obj[test](data_handler = dh, **inputs).perform_test()
         try:
             st.write(f"Results of {inputs['sample']} {test}:")
         except:
             st.write(f"Results of {test}:")
-        st.write(inputs)
-        st.write(test_obj[test](data_handler = dh, **inputs).perform_test())
-    
+        #st.write(inputs)
+        if results["accept"] ==0:
+            st.write("Cannot reject null hypothesis")
+        else:
+            st.write("Reject null hypothesis: true difference in means is not equal to 0")
+        write_dict={'p_value':'p value: ','z_value': 'Test statistic for z: ','t_value':'Test statistic for t: ','f_value': 'Test statistic for F: ',
+                    }
+        if test != "ANOVA":
+            if inputs['num_samples'] == "Two sample":
+                write_dict['sample_mean_1'] = f'Sample mean for {inputs["cat1"]}: '
+                write_dict['sample_mean_2'] = f'Sample mean for {inputs["cat2"]}: '
+                if results['cat_NaN_found'] or results['num_NaN_found']:
+                    st.warning("Missing values were found, these were exculded while conducting statistical tests")
+            else:
+                write_dict['sample_mean_1'] = f'Sample mean for {inputs["numeric_col"]}: '
+                if results['num_NaN_found']:
+                    st.warning("Missing values were found, these were exculded while conducting statistical tests")
+            st.write('Confidence interval: ',(round(results["con_low"],3) , round(results["con_up"],3)))
+        #st.write(results)
+        for key,value in results.items():
+            if key in write_dict.keys():
+                st.write(write_dict[key],round(value,3))
+        
 
 def datastat_inputs(dh, test):
 
@@ -174,4 +195,3 @@ if __name__ == '__main__':
                 data_viz_shell(filehandler)
             elif opt == "Statistics":
                 datastat_shell(filehandler)
-                st.write("Coming soon!")
