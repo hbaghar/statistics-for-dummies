@@ -7,10 +7,22 @@ from backend import hypothesis_test_handler as hth
 
 @st.cache(allow_output_mutation=True)
 def upload_file(file):
+    """
+    Accepts a file and returns a DataFrameHandler object. Written in order to leverage streamlit's caching functionality.
+
+    input:
+        file: file object
+
+    returns:
+        DataFrameHandler object
+    """
     return dm.DataFrameHandler(file)
 
 
 def data_snapshot(dh):
+    """
+    Providing a snapshot of the dataframe - descriptive, categorical, missing values stats and header of dataframe.
+    """
     dataSnapshot = st.container()
 
     try:
@@ -38,6 +50,17 @@ def data_snapshot(dh):
 
 
 def data_viz_shell(dh):
+    """
+    Function that reserves space for results of data visualization.
+
+    Collects the inputs from the input function, calls the visualiztion hadler and presents the results.
+
+    input:
+        dh: DataFrameHandler object
+
+    returns:
+        None
+    """
     viz_type = st.selectbox(
         "What type of visualization do you want?",
         (
@@ -65,6 +88,16 @@ def data_viz_shell(dh):
 
 
 def dataviz_inputs(dh, viz_type):
+    """
+    Function that collects the user inputs for data visualization.
+
+    input:
+        dh: DataFrameHandler object
+        viz_type: string mentioning the type of visualization
+
+    returns:
+        inputs: dictionary of inputs
+    """
 
     inputs = dict()
 
@@ -128,6 +161,15 @@ def dataviz_inputs(dh, viz_type):
 
 
 def datastat_shell(dh):
+    """
+    Function that reserves space for results of statistical tests.
+
+    input:
+        dh: DataFrameHandler object
+
+    returns:
+        None
+    """
     test = st.selectbox("Select a statistical test", ("Z-Test", "T-Test", "ANOVA"))
     inputs = datastat_inputs(dh, test)
 
@@ -182,7 +224,16 @@ def datastat_shell(dh):
 
 
 def datastat_inputs(dh, test):
+    """
+    Function that collects the user inputs for statistical tests.
 
+    input:
+        dh: DataFrameHandler object
+        test: string mentioning the type of statistical test
+
+    returns:
+        inputs: dictionary of inputs
+    """
     inputs = dict()
     dataStatOptions = st.container()
 
@@ -234,6 +285,9 @@ def datastat_inputs(dh, test):
 
 
 if __name__ == "__main__":
+    """
+    Main function that runs the app.
+    """
     st.write(
         """
     # DATA 515 Project - Statistics for Dummies
