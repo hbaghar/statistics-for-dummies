@@ -285,9 +285,6 @@ def datastat_inputs(dh, test):
 
 
 if __name__ == "__main__":
-    """
-    Main function that runs the app.
-    """
     st.write(
         """
     # DATA 515 Project - Statistics for Dummies
