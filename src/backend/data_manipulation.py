@@ -51,7 +51,7 @@ class DataFrameHandler(object):
     def get_categorical_columns(self):
         """
         Returns list with names of the categorical columns in the dataframe
-        There can be numeric columns that are categorical, we will assume that more than 10 unique values is the threshold between categorcial and numeric features
+        There can be numeric columns that are categorical, we will assume that more than 10 unique values is the threshold between categorical and numeric features
 
         Parameters
         ----------
@@ -90,7 +90,7 @@ class DataFrameHandler(object):
 
     def get_categorical_stats(self):
         """
-        Returns the descriptive statistic of cateogorical columns of the dataframe
+        Returns the descriptive statistic of categorical columns of the dataframe
         
         Parameters
         ----------

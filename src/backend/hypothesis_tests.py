@@ -3,8 +3,6 @@ import scipy.stats
 from scipy import stats
 from scipy.stats import f_oneway
 
-### Doin' Keegan shit over here ###
-
 # Input parameters: sample (pd df), population mean (float), significance level (optional float)
 # Return values: p-value, t-value, confidence interval (lower), confidence interval (upper), mean of sample, reject/accept (1 = accept, 0 = reject)
 def t_test_1_samp(x, pop_mean, sig_lvl=0.05):

@@ -53,7 +53,7 @@ def data_viz_shell(dh):
     """
     Function that reserves space for results of data visualization.
 
-    Collects the inputs from the input function, calls the visualiztion hadler and presents the results.
+    Collects the inputs from the input function, calls the visualization handler and presents the results.
 
     input:
         dh: DataFrameHandler object
