@@ -5,6 +5,9 @@ import streamlit as st
 
 
 class DataFrameHandler(object):
+    """
+    Factory method for creating a DataFrameHandler object that handles the input file to create a dataframe for API use. 
+    """
     def __init__(self, file):
         print("Init of df-handler has executed")
         self.df = self.get_dataframe(file)
@@ -13,7 +16,8 @@ class DataFrameHandler(object):
         """
         Returns dataframe from different file types
 
-        Parameters:
+        Parameters
+        ----------
                 file (UploadedFile): A UploadedFile object containing a BytesIO file-type that must be CSV, XLS, XLSX or simple JSON.
 
         Returns:
@@ -34,11 +38,25 @@ class DataFrameHandler(object):
             print("File type not recognized")
 
     def get_numeric_columns(self):
+        """
+        Returns list with names of the numeric columns in the dataframe
+
+        Parameters
+        ----------
+                df (DataFrame): DataFrame from the DataFrameHandler
+        """
         numerics = ["int16", "int32", "int64", "float16", "float32", "float64"]
         return list(self.df.select_dtypes(include=numerics).columns)
 
     def get_categorical_columns(self):
-        # There can be numeric columns that are categorical, we will assume that more than 10 unique values is the threshold between categorcial and numeric features
+        """
+        Returns list with names of the categorical columns in the dataframe
+        There can be numeric columns that are categorical, we will assume that more than 10 unique values is the threshold between categorcial and numeric features
+
+        Parameters
+        ----------
+                df (DataFrame): DataFrame from the DataFrameHandler
+        """
         numerics = ["int16", "int32", "int64", "float16", "float32", "float64"]
         num_unique = self.df.nunique()
         less_than_10 = num_unique < 10
@@ -50,26 +68,53 @@ class DataFrameHandler(object):
         return categorical_columns
 
     def get_column_categories(self, category):
+        """
+        Returns unique list of column categories 
+
+        Parameters
+        ----------
+                category (String): Name of the categorical column to consider
+                df (DataFrame): DataFrame from the DataFrameHandler
+        """
         return list(self.df[category].unique())
 
     def get_descriptive_stats(self):
+        """
+        Returns the descriptive statistics of numeric columns of the dataframe
+        
+        Parameters
+        ----------
+                df (DataFrame): DataFrame from the DataFrameHandler
+        """
         return self.df.describe()
 
     def get_categorical_stats(self):
+        """
+        Returns the descriptive statistic of cateogorical columns of the dataframe
+        
+        Parameters
+        ----------
+                df (DataFrame): DataFrame from the DataFrameHandler
+        """
         return self.df[self.get_categorical_columns()].describe(include="all")
 
     def get_missing_value_stats(self):
+        """
+        Returns a string with the amount of missing values in each column inside the dataframe.
+        
+        Parameters
+        ----------
+                df (DataFrame): DataFrame from the DataFrameHandler
+        """
         return self.df.isnull().sum()
 
     def slice_by_column(self, categorical_column, numeric_column, **kwargs):
-        # TO-DO:
-        # - Phase 1: Split by all categories in a column
-        # - Phase 2: Split by specific categories in a column (?)
         """
-        Returns dictionary with Series from the numeric_column each sliced by their respective grouping in the categorical_column.
+        Returns dictionary with Series objects from the numeric_column each sliced by their respective grouping in the categorical_column.
         If there are NaN in the categorical_column we don't consider them
 
-        Parameters:
+        Parameters
+        ----------
                 categorical_column (String): Name of the categorical column that contains the grouping for slicing
                 numeric_column (String): Name of the numerical column that contains the values that are to be sliced
 
@@ -111,7 +156,3 @@ if __name__ == "__main__":
     uf = st.uploaded_file_manager.UploadedFile(ufr)
     obj = DataFrameHandler(uf)
     print(obj.slice_by_column("Sex", "Age", cat1="F", cat2="M", cat3="T"))
-
-
-# uploaded_file = st.file_uploader("Choose a CSV file")
-# print(uploaded_file.type)
