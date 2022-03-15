@@ -7,7 +7,10 @@ from scipy.stats import f_oneway
 # Return values: p-value, t-value, confidence interval (lower), confidence interval (upper), mean of sample, reject/accept (1 = accept, 0 = reject)
 def t_test_1_samp(x, pop_mean, sig_lvl=0.05):
 
-    print("One Sample t-test")
+    out = 0
+
+    if out:
+        print("One Sample t-test")
 
     samp_mean = float(x.mean())
     samp_sd = float(x.std())
@@ -22,25 +25,30 @@ def t_test_1_samp(x, pop_mean, sig_lvl=0.05):
     con_1 = float(con_1)
     con_2 = float(con_2)
 
-    print("t = " + str(t))
-    print("df = " + str(n - 1))
-    print("p-value = " + str(p))
+    if out:
+        print("t = " + str(t))
+        print("df = " + str(n - 1))
+        print("p-value = " + str(p))
 
     accept = 1
     if p > sig_lvl:
-        print("Alternative hypothesis: true mean is not equal to " + str(pop_mean))
+        if out:
+            print("Alternative hypothesis: true mean is not equal to " + str(pop_mean))
         accept = 0
     else:
-        print("Null hypothesis: true mean is equal to " + str(pop_mean))
+        if out:
+            print("Null hypothesis: true mean is equal to " + str(pop_mean))
 
-    print(
-        str(100 * (1 - sig_lvl))
-        + "% confidence interval: "
-        + str(con_1)
-        + " "
-        + str(con_2)
-    )
-    print("Mean of x: " + str(samp_mean))
+    if out:
+        print(
+            str(100 * (1 - sig_lvl))
+            + "% confidence interval: "
+            + str(con_1)
+            + " "
+            + str(con_2)
+        )
+        print("Mean of x: " + str(samp_mean))
+
     result = {
         "p_value": p,
         "t_value": t,
@@ -57,7 +65,10 @@ def t_test_1_samp(x, pop_mean, sig_lvl=0.05):
 # Return values: p-value, t-value, confidence interval (lower), confidence interval (upper), mean of sample 1, mean of sample 2, reject/accept (1 = accept, 0 = reject)
 def t_test_welch(x, y, sig_lvl=0.05):
 
-    print("Welch Two sample t-test (unequal variance)")
+    out = 0
+
+    if out:
+        print("Welch Two sample t-test (unequal variance)")
 
     mu_1 = float(x.mean())
     mu_2 = float(y.mean())
@@ -87,26 +98,31 @@ def t_test_welch(x, y, sig_lvl=0.05):
         )
     )
 
-    print("t = " + str(t))
-    print("df = " + str(n1 + n2 - 2))
-    print("p-value = " + str(p))
+    if out:
+        print("t = " + str(t))
+        print("df = " + str(n1 + n2 - 2))
+        print("p-value = " + str(p))
 
     accept = 1
     if p > sig_lvl:
-        print("Alternative hypothesis: true difference in means is not equal to 0")
+        if out:
+            print("Alternative hypothesis: true difference in means is not equal to 0")
         accept = 0
     else:
-        print("Null hypothesis: true difference in means is equal to 0")
+        if out:
+            print("Null hypothesis: true difference in means is equal to 0")
 
-    print(
-        str(100 * (1 - sig_lvl))
-        + "% confidence interval: "
-        + str(con_1)
-        + " "
-        + str(con_2)
-    )
-    print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
-    print()
+    if out:
+        print(
+            str(100 * (1 - sig_lvl))
+            + "% confidence interval: "
+            + str(con_1)
+            + " "
+            + str(con_2)
+        )
+        print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
+        print()
+
     result = {
         "p_value": p,
         "t_value": t,
@@ -123,7 +139,10 @@ def t_test_welch(x, y, sig_lvl=0.05):
 # Return values: p-value, t-value, confidence interval (lower), confidence interval (upper), mean of sample 1, mean of sample 2, reject/accept (1 = accept, 0 = reject)
 def t_test_2_samp_equal_var(x, y, sig_lvl=0.05):
 
-    print("Two sample t-test (equal variance)")
+    out = 0
+
+    if out:
+        print("Two sample t-test (equal variance)")
 
     mu_1 = float(x.mean())
     mu_2 = float(y.mean())
@@ -152,26 +171,31 @@ def t_test_2_samp_equal_var(x, y, sig_lvl=0.05):
         )
     )
 
-    print("t = " + str(t))
-    print("df = " + str(n1 + n2 - 2))
-    print("p-value = " + str(p))
+    if out:
+        print("t = " + str(t))
+        print("df = " + str(n1 + n2 - 2))
+        print("p-value = " + str(p))
 
     accept = 1
     if p > sig_lvl:
-        print("Alternative hypothesis: true difference in means is not equal to 0")
+        if out:
+            print("Alternative hypothesis: true difference in means is not equal to 0")
         accept = 0
     else:
-        print("Null hypothesis: true difference in means is equal to 0")
+        if out:
+            print("Null hypothesis: true difference in means is equal to 0")
 
-    print(
-        str(100 * (1 - sig_lvl))
-        + "% confidence interval: "
-        + str(con_1)
-        + " "
-        + str(con_2)
-    )
-    print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
-    print()
+    if out:
+        print(
+            str(100 * (1 - sig_lvl))
+            + "% confidence interval: "
+            + str(con_1)
+            + " "
+            + str(con_2)
+        )
+        print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
+        print()
+
     result = {
         "p_value": p,
         "t_value": t,
@@ -188,7 +212,10 @@ def t_test_2_samp_equal_var(x, y, sig_lvl=0.05):
 # Return values: p-value, z-value, confidence interval (lower), confidence interval (upper), mean of sample, reject/accept (1 = accept, 0 = reject)
 def z_test_1_samp(x, pop_mean, sig_lvl=0.05):
 
-    print("1 sample z-test (two-tailed)")
+    out = 0
+
+    if out:
+        print("1 sample z-test (two-tailed)")
 
     samp_mu = float(x.mean())
     pop_std = float(x.std())
@@ -197,17 +224,20 @@ def z_test_1_samp(x, pop_mean, sig_lvl=0.05):
     z = float((samp_mu - pop_mean) / (pop_std / pow(n, 0.5)))
     p = scipy.stats.norm.sf(abs(z)) * 2
 
-    print("z: " + str(z))
-    print("p-value: " + str(p))
+    if out:
+        print("z: " + str(z))
+        print("p-value: " + str(p))
 
     accept = 1
     if p > sig_lvl:
-        print(
-            "Alternative hypothesis: the sample mean and population means are NOT equal"
-        )
+        if out:
+            print(
+                "Alternative hypothesis: the sample mean and population means are NOT equal"
+            )
         accept = 0
     else:
-        print("Null hypothesis: the sample mean and population means are equal")
+        if out:
+            print("Null hypothesis: the sample mean and population means are equal")
 
     con_1 = float(
         samp_mu - scipy.stats.norm.ppf(1 - sig_lvl / 2) * pop_std / pow(n, 0.5)
@@ -216,15 +246,17 @@ def z_test_1_samp(x, pop_mean, sig_lvl=0.05):
         samp_mu + scipy.stats.norm.ppf(1 - sig_lvl / 2) * pop_std / pow(n, 0.5)
     )
 
-    print(
-        str(100 * (1 - sig_lvl))
-        + "% confidence interval: "
-        + str(con_1)
-        + " "
-        + str(con_2)
-    )
-    print("Mean of x: " + str(samp_mu))
-    print()
+    if out:
+        print(
+            str(100 * (1 - sig_lvl))
+            + "% confidence interval: "
+            + str(con_1)
+            + " "
+            + str(con_2)
+        )
+        print("Mean of x: " + str(samp_mu))
+        print()
+
     result = {
         "p_value": p,
         "z_value": z,
@@ -240,7 +272,10 @@ def z_test_1_samp(x, pop_mean, sig_lvl=0.05):
 # Return values: p-value, z-value, confidence interval (lower), confidence interval (upper), mean of sample 1, mean of sample 2, reject/accept (1 = accept, 0 = reject)
 def z_test_2_samp(x, y, sig_lvl=0.05):
 
-    print("2 sample z-test (two tailed)")
+    out = 0
+
+    if out:
+        print("2 sample z-test (two tailed)")
 
     mu_1 = float(x.mean())
     mu_2 = float(y.mean())
@@ -252,15 +287,18 @@ def z_test_2_samp(x, y, sig_lvl=0.05):
     z = (mu_1 - mu_2) / pow((std_1 ** 2 / n1 + std_2 ** 2 / n2), 0.5)
     p = scipy.stats.norm.sf(abs(z)) * 2
 
-    print("z: " + str(z))
-    print("p-value: " + str(p))
+    if out:
+        print("z: " + str(z))
+        print("p-value: " + str(p))
 
     accept = 1
     if p > sig_lvl:
-        print("Alternative hypothesis: the population means are NOT equal")
+        if out:
+            print("Alternative hypothesis: the population means are NOT equal")
         accept = 0
     else:
-        print("Null hypothesis: the population means are equal")
+        if out:
+            print("Null hypothesis: the population means are equal")
 
     con_1 = float(
         (mu_1 - mu_2)
@@ -291,15 +329,17 @@ def z_test_2_samp(x, y, sig_lvl=0.05):
         )
     )
 
-    print(
-        str(100 * (1 - sig_lvl))
-        + "% confidence interval: "
-        + str(con_1)
-        + " "
-        + str(con_2)
-    )
-    print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
-    print()
+    if out:
+        print(
+            str(100 * (1 - sig_lvl))
+            + "% confidence interval: "
+            + str(con_1)
+            + " "
+            + str(con_2)
+        )
+        print("Mean of x and mean of y (respectively): " + str(mu_1) + ", " + str(mu_2))
+        print()
+
     result = {
         "p_value": p,
         "z_value": z,
@@ -316,12 +356,24 @@ def z_test_2_samp(x, y, sig_lvl=0.05):
 # Return values: p-value, f-value, variance between, var within, degrees of freedom between, df within, df total, Sum of Squares between, ss within, ss total, accept (1 = accept, 0 = reject)
 def one_way_anova(dictionary, sig_lvl=0.05):
 
-    print("One way ANOVA")
-    cat_val = dictionary.pop("cat_NaN_found")
-    num_val = dictionary.pop("num_NaN_found")
+    out = 0
+
+    if out:
+        print("One way ANOVA")
+        
+    cat_val = ""
+    num_val = ""
+
+    if "cat_NaN_found" in dictionary:
+        cat_val = dictionary.pop("cat_NaN_found")
+    if 'num_NaN_found' in dictionary:
+        num_val = dictionary.pop("num_NaN_found")
     sep_values = [list(value) for key, value in dictionary.items()]
     f, p = f_oneway(*sep_values)
-    print(f, p)
+
+    if out:
+        print(f, p)
+
     unique_groups = pd.DataFrame(list(dictionary.keys()))
     k = unique_groups.shape[0]
     n = sum([len(value) for key, value in dictionary.items()])
@@ -372,15 +424,21 @@ def one_way_anova(dictionary, sig_lvl=0.05):
         [str("%.2f" % ss_total), str("%.0f" % df_total), "--", "--", "--"],
     ]
 
-    print(pd.DataFrame(data, col_headers, row_headers))
+    if out:
+        print(pd.DataFrame(data, col_headers, row_headers))
 
     accept = 1
     if p > sig_lvl:
-        print("Alternative hypothesis: true difference in means is not equal to 0")
+        if out:
+            print("Alternative hypothesis: true difference in means is not equal to 0")
         accept = 0
     else:
-        print("Null hypothesis: true difference in means is equal to 0")
-    print()
+        if out:
+            print("Null hypothesis: true difference in means is equal to 0")
+
+    if out:
+        print()
+
     result = {
         "p_value": p,
         "f_value": f,
