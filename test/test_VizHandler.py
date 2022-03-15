@@ -1,5 +1,6 @@
 import unittest
 
+# trunk-ignore(flake8/F401)
 from backend.data_manipulation import DataFrameHandler
 
 
