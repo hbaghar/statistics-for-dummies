@@ -1,9 +1,15 @@
 import unittest
+<<<<<<< HEAD
 from backend.hypothesis_test_handler import ANOVA
 from io import BytesIO
 import streamlit as st
 
 from src.backend.data_manipulation import DataFrameHandler
+=======
+from backend.hypothesis_tests import one_way_anova
+from sklearn import datasets
+import pandas as pd
+>>>>>>> 8877d75b2f22077250dacbabb0ea1e54f65413f7
 
 class TestANOVA(unittest.TestCase):
 
@@ -23,6 +29,7 @@ class TestANOVA(unittest.TestCase):
 
     def test_anova_calculation(self):
         
+<<<<<<< HEAD
         # Make dataframehandler
         ufr = None
         filepath="datasets/iris.csv"
@@ -43,6 +50,20 @@ class TestANOVA(unittest.TestCase):
 
         # Perform calculations
         dic = aov.perform_test()
+=======
+        # import datasets
+        iris = datasets.load_iris()
+        s_length = pd.DataFrame(iris.data[:,0])
+        s_width = pd.DataFrame(iris.data[:, 1])
+        p_length = pd.DataFrame(iris.data[:, 2])
+        p_width = pd.DataFrame(iris.data[:, 3])
+
+        # make our dictionary
+        aov_dic = {"Setosa": iris.data[:,0][0:50], "Versicolour": iris.data[:,0][50:100], "Virginica": iris.data[:,0][100:150]}
+
+        # call our function
+        dic = one_way_anova(aov_dic)
+>>>>>>> 8877d75b2f22077250dacbabb0ea1e54f65413f7
 
         # separate our values we want to verify
         p = dic["p_value"]
