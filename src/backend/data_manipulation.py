@@ -9,7 +9,6 @@ class DataFrameHandler(object):
     Factory method for creating a DataFrameHandler object that handles the input file to create a dataframe for API use. 
     """
     def __init__(self, file):
-        print("Init of df-handler has executed")
         self.df = self.get_dataframe(file)
 
     def get_dataframe(self, file):
