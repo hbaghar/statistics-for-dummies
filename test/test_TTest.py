@@ -1,17 +1,9 @@
 import unittest
-<<<<<<< HEAD
 from backend.hypothesis_test_handler import TTest
 import backend.data_manipulation as dm
 from io import BytesIO
 import streamlit as st
 from src.backend.data_manipulation import DataFrameHandler
-=======
-from backend.hypothesis_tests import t_test_1_samp
-from backend.hypothesis_tests import t_test_2_samp_equal_var
-from backend.hypothesis_tests import t_test_welch
-from sklearn import datasets
-import pandas as pd
->>>>>>> 8877d75b2f22077250dacbabb0ea1e54f65413f7
 
 class TestTTest(unittest.TestCase):
 
@@ -31,7 +23,6 @@ class TestTTest(unittest.TestCase):
 
     def test_t_test_1_sample(self):
         
-<<<<<<< HEAD
         # Make dataframehandler
         ufr = None
         filepath="datasets/iris.csv"
@@ -58,18 +49,6 @@ class TestTTest(unittest.TestCase):
         # Perform calculations
         dic = tt1.perform_test()
 
-=======
-        # import datasets
-        iris = datasets.load_iris()
-        s_length = pd.DataFrame(iris.data[:,0])
-        s_width = pd.DataFrame(iris.data[:, 1])
-        p_length = pd.DataFrame(iris.data[:, 2])
-        p_width = pd.DataFrame(iris.data[:, 3])
-
-        # call our function
-        dic = t_test_1_samp(s_length, 5)
-
->>>>>>> 8877d75b2f22077250dacbabb0ea1e54f65413f7
         # separate our values we want to verify
         p = dic['p_value']
         t = dic['t_value']
@@ -88,7 +67,6 @@ class TestTTest(unittest.TestCase):
 
     def test_2_sample_t_test_equal(self):
       
-<<<<<<< HEAD
         # Make dataframehandler
         ufr = None
         filepath="datasets/iris.csv"
@@ -114,17 +92,6 @@ class TestTTest(unittest.TestCase):
 
         # Perform calculations
         dic = tt1.perform_test()
-=======
-        # import datasets
-        iris = datasets.load_iris()
-        s_length = pd.DataFrame(iris.data[:,0])
-        s_width = pd.DataFrame(iris.data[:, 1])
-        p_length = pd.DataFrame(iris.data[:, 2])
-        p_width = pd.DataFrame(iris.data[:, 3])
-
-        # call our function
-        dic = t_test_2_samp_equal_var(p_length, s_length)
->>>>>>> 8877d75b2f22077250dacbabb0ea1e54f65413f7
 
         # separate our values we want to verify
         p = dic['p_value']
@@ -137,7 +104,6 @@ class TestTTest(unittest.TestCase):
 
         # unit testing time (used iris dataset in Rstudio to compare)
         self.assertAlmostEqual(p, 0)
-<<<<<<< HEAD
         self.assertAlmostEqual(t, -39.493, places=1)
         self.assertAlmostEqual(con_1, -2.938597, places=2)
         self.assertAlmostEqual(con_2, -2.6574, places=2)
@@ -172,25 +138,6 @@ class TestTTest(unittest.TestCase):
 
         # Perform calculations
         dic = tt1.perform_test()
-=======
-        self.assertAlmostEqual(t, -13.098, places=3)
-        self.assertAlmostEqual(con_1, -2.398643, places=2)
-        self.assertAlmostEqual(con_2, -1.772023, places=2)
-        self.assertAlmostEqual(samp_mean_1, 3.758, places=3)
-        self.assertAlmostEqual(samp_mean_2, 5.843, places=3)
-        self.assertEqual(accept, 1)
-
-    def test_2_sample_t_test_unequal(self):
-        # import datasets
-        iris = datasets.load_iris()
-        s_length = pd.DataFrame(iris.data[:,0])
-        s_width = pd.DataFrame(iris.data[:, 1])
-        p_length = pd.DataFrame(iris.data[:, 2])
-        p_width = pd.DataFrame(iris.data[:, 3])
-
-        # call our function
-        dic = t_test_welch(p_length, s_length)
->>>>>>> 8877d75b2f22077250dacbabb0ea1e54f65413f7
 
         # separate our values we want to verify
         p = dic['p_value']
@@ -203,19 +150,11 @@ class TestTTest(unittest.TestCase):
 
         # unit testing time (used iris dataset in Rstudio to compare)
         self.assertAlmostEqual(p, 0)
-<<<<<<< HEAD
         self.assertAlmostEqual(t, -39.493, places=1)
         self.assertAlmostEqual(con_1, -2.939, places=2)
         self.assertAlmostEqual(con_2, -2.656, places=2)
         self.assertAlmostEqual(samp_mean_1, 1.462, places=2)
         self.assertAlmostEqual(samp_mean_2, 4.26, places=2)
-=======
-        self.assertAlmostEqual(t, -13.098, places=3)
-        self.assertAlmostEqual(con_1, -2.398643, places=2)
-        self.assertAlmostEqual(con_2, -1.772023, places=2)
-        self.assertAlmostEqual(samp_mean_1, 3.758, places=3)
-        self.assertAlmostEqual(samp_mean_2, 5.843, places=3)
->>>>>>> 8877d75b2f22077250dacbabb0ea1e54f65413f7
         self.assertEqual(accept, 1)
 
 
