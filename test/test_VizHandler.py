@@ -1,7 +1,7 @@
 import unittest
 
 # trunk-ignore(flake8/F401)
-from backend.data_manipulation import DataFrameHandler
+from src.backend.data_manipulation import DataFrameHandler
 
 
 class TestVizHandler(unittest.TestCase):

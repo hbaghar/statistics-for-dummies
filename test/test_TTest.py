@@ -3,8 +3,8 @@ from io import BytesIO
 
 import streamlit as st
 
-from backend.hypothesis_test_handler import TTest
 from src.backend.data_manipulation import DataFrameHandler
+from src.backend.hypothesis_test_handler import TTest
 
 
 class TestTTest(unittest.TestCase):
@@ -13,7 +13,7 @@ class TestTTest(unittest.TestCase):
         
         # Make dataframehandler
         ufr = None
-        filepath="datasets/iris.csv"
+        filepath="datasets/Iris.csv"
         with open(filepath, "rb") as fh:
             buf = BytesIO(fh.read())
             ufr = st.uploaded_file_manager.UploadedFileRec(1,"Name", "text/csv", buf.getvalue())
@@ -57,7 +57,7 @@ class TestTTest(unittest.TestCase):
       
         # Make dataframehandler
         ufr = None
-        filepath="datasets/iris.csv"
+        filepath="datasets/Iris.csv"
         with open(filepath, "rb") as fh:
             buf = BytesIO(fh.read())
             ufr = st.uploaded_file_manager.UploadedFileRec(1,"Name", "text/csv", buf.getvalue())
@@ -103,7 +103,7 @@ class TestTTest(unittest.TestCase):
 
         # Make dataframehandler
         ufr = None
-        filepath="datasets/iris.csv"
+        filepath="datasets/Iris.csv"
         with open(filepath, "rb") as fh:
             buf = BytesIO(fh.read())
             ufr = st.uploaded_file_manager.UploadedFileRec(1,"Name", "text/csv", buf.getvalue())
