@@ -230,7 +230,6 @@ class TestVizHandler(unittest.TestCase):
         # unit testing time
         self.assertEqual(fig, None)
 
-class TestVizHandler(unittest.TestCase):
-    pass
+
 if __name__ == '__main__':
     unittest.main()
