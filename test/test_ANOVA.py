@@ -2,24 +2,9 @@ import unittest
 from backend.hypothesis_test_handler import ANOVA
 from io import BytesIO
 import streamlit as st
-
 from src.backend.data_manipulation import DataFrameHandler
 
 class TestANOVA(unittest.TestCase):
-
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
-
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
-
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
 
     def test_anova_calculation(self):
         
@@ -66,11 +51,6 @@ class TestANOVA(unittest.TestCase):
         self.assertAlmostEqual(ss_wit, 38.96, places=1)
         self.assertAlmostEqual(ss_tot, 63.21+38.96, places=1)
         self.assertAlmostEqual(accept,1)
-
-
-
-
-
 
 if __name__ == '__main__':
     unittest.main()

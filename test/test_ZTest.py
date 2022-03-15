@@ -6,20 +6,6 @@ from src.backend.data_manipulation import DataFrameHandler
 
 class TestZTest(unittest.TestCase):
 
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
-
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
-
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
-
     def test_z_test_1_sample(self):
 
         # Make dataframehandler
@@ -107,7 +93,6 @@ class TestZTest(unittest.TestCase):
         self.assertAlmostEqual(samp_mean_1, 1.462, places=2)
         self.assertAlmostEqual(samp_mean_2, 4.26, places=2)
         self.assertEqual(accept, 1)
-
 
 if __name__ == '__main__':
     unittest.main()

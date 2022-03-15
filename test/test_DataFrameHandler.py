@@ -5,21 +5,6 @@ import streamlit as st
 
 class TestDataFrameHandler(unittest.TestCase):
 
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
-
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
-
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
-
-
     def test_get_num_col(self):
 
         # Make dataframehandler
@@ -82,7 +67,6 @@ class TestDataFrameHandler(unittest.TestCase):
         self.assertEqual(lst[0], "Iris-setosa")
         self.assertEqual(lst[1], "Iris-versicolor")
         self.assertEqual(lst[2], "Iris-virginica")
-
 
 if __name__ == '__main__':
     unittest.main()
