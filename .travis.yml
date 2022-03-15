@@ -6,7 +6,6 @@ language: python
 python:
   - 3.9
   - 3.6
-  - 3.5
 
 # what branches should be evaluated
 branches:
@@ -22,7 +21,7 @@ install:
 
 # a list of commands to run before the main script
 before_script:
-  - "flake8 codebase"
+  - "flake8 src"
 
 # the actual commands to run
 script:
