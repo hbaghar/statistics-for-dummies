@@ -1,5 +1,7 @@
 import unittest
+
 from backend.data_manipulation import DataFrameHandler
+
 
 class TestVizHandler(unittest.TestCase):
     pass

@@ -1,9 +1,11 @@
 import unittest
-from backend.hypothesis_test_handler import ANOVA
 from io import BytesIO
+
 import streamlit as st
 
+from backend.hypothesis_test_handler import ANOVA
 from src.backend.data_manipulation import DataFrameHandler
+
 
 class TestANOVA(unittest.TestCase):
     

@@ -1,8 +1,11 @@
 import unittest
-from backend.hypothesis_test_handler import ZTest
 from io import BytesIO
+
 import streamlit as st
+
+from backend.hypothesis_test_handler import ZTest
 from src.backend.data_manipulation import DataFrameHandler
+
 
 class TestZTest(unittest.TestCase):
 

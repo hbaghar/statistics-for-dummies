@@ -1,9 +1,11 @@
 import unittest
-from backend.hypothesis_test_handler import TTest
-import backend.data_manipulation as dm
 from io import BytesIO
+
 import streamlit as st
+
+from backend.hypothesis_test_handler import TTest
 from src.backend.data_manipulation import DataFrameHandler
+
 
 class TestTTest(unittest.TestCase):
 

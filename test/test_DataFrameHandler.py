@@ -1,7 +1,10 @@
 import unittest
-from backend.data_manipulation import DataFrameHandler
 from io import BytesIO
+
 import streamlit as st
+
+from backend.data_manipulation import DataFrameHandler
+
 
 class TestDataFrameHandler(unittest.TestCase):
 
