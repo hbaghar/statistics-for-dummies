@@ -47,7 +47,6 @@ statistics-for-dummies
 ├─ .travis.yml
 ├─ .markdownlit.yaml
 ├─ .isort.cfg
-├─ .flake8
 ├─ .trunk
 │  ├─ .gitignore
 │  └─ trunk.yaml
