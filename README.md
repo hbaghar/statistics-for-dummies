@@ -36,12 +36,31 @@ statistics-for-dummies
 ├─ .gitignore
 ├─ LICENSE
 ├─ README.md
+├─ .travis.yml
+├─ .markdownlit.yaml
+├─ .isort.cfg
+├─ .flake8
+├─ .trunk
+│  ├─ .gitignore
+│  └─ trunk.yaml
+├─ test
+│  ├─ __init__.py
+│  ├─ test_ANOVA.py
+│  ├─ test_DataFrameHandler.py
+│  ├─ test_TTest.py
+│  ├─ test_VizHandler.py
+│  └─ test_ZTest.csv
+├─ docs
+│  ├─ Component_Specification.md
+│  ├─ Functional_Specification.md
+│  └─ Statistics For Dummies Package.pdf
 ├─ datasets
 │  ├─ Iris.csv
 │  ├─ Sales.csv
 │  └─ biostats.csv
 ├─ requirements.txt
 └─ src
+   ├─ __init.py__
    ├─ app.py
    └─ backend
       ├─ __init__.py
