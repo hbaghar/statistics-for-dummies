@@ -1,17 +1,16 @@
 import unittest
-from backend.hypothesis_test_handler import ANOVA
 from io import BytesIO
 import streamlit as st
-
 from src.backend.data_manipulation import DataFrameHandler
+from src.backend.hypothesis_test_handler import ANOVA
 
 class TestANOVA(unittest.TestCase):
-    
+
     def test_anova_calculation(self):
         
         # Make dataframehandler
         ufr = None
-        filepath="datasets/iris.csv"
+        filepath="datasets/Iris.csv"
         with open(filepath, "rb") as fh:
             buf = BytesIO(fh.read())
             ufr = st.uploaded_file_manager.UploadedFileRec(1,"Name", "text/csv", buf.getvalue())
@@ -52,11 +51,6 @@ class TestANOVA(unittest.TestCase):
         self.assertAlmostEqual(ss_wit, 38.96, places=1)
         self.assertAlmostEqual(ss_tot, 63.21+38.96, places=1)
         self.assertAlmostEqual(accept,1)
-
-
-
-
-
 
 if __name__ == '__main__':
     unittest.main()

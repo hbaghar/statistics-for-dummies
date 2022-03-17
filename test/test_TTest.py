@@ -1,17 +1,15 @@
 import unittest
-from backend.hypothesis_test_handler import TTest
-import backend.data_manipulation as dm
 from io import BytesIO
 import streamlit as st
 from src.backend.data_manipulation import DataFrameHandler
+from src.backend.hypothesis_test_handler import TTest
 
 class TestTTest(unittest.TestCase):
-
     def test_t_test_1_sample(self):
         
         # Make dataframehandler
         ufr = None
-        filepath="datasets/iris.csv"
+        filepath="datasets/Iris.csv"
         with open(filepath, "rb") as fh:
             buf = BytesIO(fh.read())
             ufr = st.uploaded_file_manager.UploadedFileRec(1,"Name", "text/csv", buf.getvalue())
@@ -55,7 +53,7 @@ class TestTTest(unittest.TestCase):
       
         # Make dataframehandler
         ufr = None
-        filepath="datasets/iris.csv"
+        filepath="datasets/Iris.csv"
         with open(filepath, "rb") as fh:
             buf = BytesIO(fh.read())
             ufr = st.uploaded_file_manager.UploadedFileRec(1,"Name", "text/csv", buf.getvalue())
@@ -101,7 +99,7 @@ class TestTTest(unittest.TestCase):
 
         # Make dataframehandler
         ufr = None
-        filepath="datasets/iris.csv"
+        filepath="datasets/Iris.csv"
         with open(filepath, "rb") as fh:
             buf = BytesIO(fh.read())
             ufr = st.uploaded_file_manager.UploadedFileRec(1,"Name", "text/csv", buf.getvalue())
@@ -142,8 +140,6 @@ class TestTTest(unittest.TestCase):
         self.assertAlmostEqual(samp_mean_1, 1.462, places=2)
         self.assertAlmostEqual(samp_mean_2, 4.26, places=2)
         self.assertEqual(accept, 1)
-
-
 
 if __name__ == '__main__':
     unittest.main()
