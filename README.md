@@ -25,7 +25,7 @@ python -m pip install -r requirements.txt
 
 ### Online
 
-_Online hosteed link coming soon!_
+Play around with the online hosted version [here](https://hbaghar-statistics-for-dummies-srcapp-qf0x2g.streamlitapp.com)
 
 ### Offline
 
